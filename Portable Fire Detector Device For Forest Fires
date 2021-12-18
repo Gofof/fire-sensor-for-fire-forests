@@ -1,0 +1,70 @@
+/*
+Project Name       :Portable Fire Detector Device For Forest Fires
+Lesson             :Intro To EEE
+Author             :Göksu Öföfoğlu 
+Student Number     :151220202150
+Date               :12.12.2021
+Revision Date      :13.12.2021
+
+//------------------------------------------------------------------------------------------------------------------------------------
+Code written for the flame sensor to be used in the detection of forest fires
+//------------------------------------------------------------------------------------------------------------------------------------
+System Input      : Fire Sensor : For dedecting the fire from environment
+System Output     : Green Led   : To show there is a peaceful environment
+                    Red Led     : To show that there is a flame around
+                    Buzzer      : To alert with a sound that there is a flame around 
+ //------------------------------------------------------------------------------------------------------------------------------------- 
+ System Work      : When there is a flame in the environment, the flame sensor detects and the red LED flashes, 
+                    the buzzer gives an audible warning, and the screen indicates 'fire'.
+                    If there is no flame in the environment,the green LED will flash, indicating a 'peaceful' warning on the screen. 
+ //--------------------------------------------------------------------------------------------------------------------------------------
+*/
+ 
+
+int greenled = 13;               // Green Led connected to dijital pin 13
+int redled = 12;                // Red Led connected to dijital pin 12
+int buzzer = 11;               // Buzzer connected to dijital pin 11
+int FireSensor = 7;           // Fire sensor connected to dijital pin 7
+int Fire;                    // Define 'Fire'
+
+
+void setup()
+{
+pinMode(greenled, OUTPUT);             //define greenled output pin
+pinMode(redled, OUTPUT);              //define redled output pin
+pinMode(buzzer, OUTPUT);             //define buzzer output pin
+pinMode(FireSensor, INPUT);         //define FireSensor input pin
+Serial.begin(9600);                //serial data transmission
+}
+
+void loop()
+{
+Fire = digitalRead(FireSensor);       //'Fire' is introduced to the sensor
+
+if (Fire == LOW)                     //if there is a fire
+{
+digitalWrite(greenled, LOW);                   //turn off the green led
+digitalWrite(redled, HIGH);                   //turn on the red led
+digitalWrite(buzzer, LOW);                   //turn off the buzzer
+Serial.println("Fire! Fire!");              //Write 'Fire! Fire!' to the screen by skipping a line
+
+delay(1000);                              //delay for 1 second
+
+digitalWrite(redled, LOW);                   //turn off the red led
+digitalWrite(buzzer, HIGH);                 //turn on the buzzer
+Serial.println("Fire! Fire!");             //Write 'Fire! Fire!' to the screen by skipping a line
+
+delay(1000);                              //delay for 1 second
+}
+  
+else                                   //if there is NOT a fire
+{  
+digitalWrite(greenled, HIGH);                          //turn on the green led
+delay(1000);                                          //delay for 1 second
+digitalWrite(greenled, LOW);                         //turn off the green led
+digitalWrite(redled, LOW);                          //turn off the red led
+digitalWrite(buzzer, LOW);                         //turn off the buzzer
+Serial.println("Peace");                          //Write 'Peace' to the screen by skipping a line
+delay(1000);                                     //delay for 1 second
+}
+}
